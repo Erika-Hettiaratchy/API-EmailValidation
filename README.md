@@ -1,5 +1,8 @@
 # Stock Price Tracker with Google Sheets & Automation  
 
+[View Stock Prices Google Sheet Here](https://docs.google.com/spreadsheets/d/1vTA3l9_d0gGBjLZkhKYhtcqkIfW0yjtQMuQoybjn5MU/edit?usp=sharing)
+
+
 ## Overview  
 This project automates the process of scraping stock prices and storing them in Google Sheets daily. It integrates **Google Colab**, **Yahoo Finance API**, **Google Sheets API**, and **Google Apps Script** to collect, format, and visualize stock price data over time.  
 
