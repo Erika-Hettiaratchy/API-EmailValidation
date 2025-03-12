@@ -1,0 +1,46 @@
+function runColabNotebook() {
+  var notebook_url = "https://colab.research.google.com/drive/17QBnabDdU7-gtyczDdV3i0-N2WfQauls?usp=sharing"; // Replace with your Colab link
+  UrlFetchApp.fetch(notebook_url);
+}
+
+function formatStockSheet() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Stock Prices");
+  if (!sheet) {
+    Logger.log("Sheet not found!");
+    return;
+  }
+  
+  // Auto-size columns for better readability
+  sheet.autoResizeColumns(1, sheet.getLastColumn());
+
+  // Apply bold headers & background color
+  var headerRange = sheet.getRange("A1:Z1");
+  headerRange.setFontWeight("bold");
+  headerRange.setBackground("#1E88E5"); // Blue background
+  headerRange.setFontColor("white");
+
+  // Set number format for stock prices
+  var priceRange = sheet.getRange("B2:B" + sheet.getLastRow());
+  priceRange.setNumberFormat("$#,##0.00");
+
+  // Add alternating row colors for readability
+  var range = sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn());
+  var rule = SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied("=MOD(ROW(),2)=0")
+    .setBackground("#E3F2FD") // Light blue alternating row color
+    .setRanges([range])
+    .build();
+  var rules = sheet.getConditionalFormatRules();
+  rules.push(rule);
+  sheet.setConditionalFormatRules(rules);
+
+  Logger.log("Stock sheet formatted!");
+}
+
+// Run both functions in sequence
+function runDailyTasks() {
+  runColabNotebook();
+  Utilities.sleep(60000); // Wait 1 minute for Colab to finish
+  formatStockSheet();
+}
+
